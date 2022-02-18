@@ -23,7 +23,7 @@ void WebServer::eventListen() {
     struct linger sock_option = {0, 1};
     setsockopt(listenfd_, SOL_SOCKET, SO_LINGER, &sock_option, sizeof(sock_option));
 
-    int ret = 0;
+    int ret = 0;(void)ret;
     sockaddr_in address;
     bzero(&address, sizeof(address));
     address.sin_family = AF_INET;
@@ -84,7 +84,7 @@ void WebServer::eventLoop() {
             } else if(events_[i].events & (EPOLLRDHUP | EPOLLHUP | EPOLLERR)) {
                 hupHandler(sockfd);
             } else if(sockfd == InactiveHandler::sig_pipefd_[0] && (events_[i].events & EPOLLIN)) {
-                bool flag = sigHandler(timeout, stop_server);
+                sigHandler(timeout, stop_server);
             } else if(events_[i].events & EPOLLIN) {
                 readHandler(sockfd);
             } else if(events_[i].events & EPOLLOUT) {
@@ -137,7 +137,6 @@ void WebServer::hupHandler(int connfd) {
 }
 
 bool WebServer::sigHandler(bool& timeout, bool& stop_server) {
-    int sig;
     int ret = 0;
     int* sig_pipe = InactiveHandler::sig_pipefd_;
     char signals[1024];

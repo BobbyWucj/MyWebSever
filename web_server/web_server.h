@@ -12,11 +12,11 @@
 #include <cassert>
 #include <sys/epoll.h>
 
-#include "../tools_func/tools_func.h"
-#include "../locker/locker.h"
-#include "../threadpool/threadpool.h"
-#include "../http_connection/http_connection.h"
-#include "../inactive_handler/inactive_handler.h"
+#include "tools_func.h"
+#include "locker.h"
+#include "threadpool.h"
+#include "http_connection.h"
+#include "inactive_handler.h"
 
 const int MAX_FD = 65536;           //最大文件描述符
 const int MAX_EVENT_NUMBER = 10000; //最大事件数
@@ -44,7 +44,7 @@ public:
 
 public:
     int port_ = 9002;
-    char* root_ = "/root";
+    const char* root_ = "/root";
     int epollfd_;
     HttpConnection* users_;
     
